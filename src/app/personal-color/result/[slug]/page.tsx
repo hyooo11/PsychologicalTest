@@ -1,7 +1,6 @@
 import Result from "@/component/Result";
-
-import { results } from "@/data/Company";
-import CompanyResult from "@/component/company/CompanyResult";
+import { results } from "@/data/PersonalColor";
+import PersonalColorResult from "@/component/personal-color/PersonalColorResult";
 
 const RusultPage = ({ params }: { params: { slug: string } }) => {
   const mbti = params.slug;
@@ -11,7 +10,7 @@ const RusultPage = ({ params }: { params: { slug: string } }) => {
   return (
     <div>
       <Result>
-        <CompanyResult data={data} />
+        <PersonalColorResult data={data} />
       </Result>
     </div>
   );

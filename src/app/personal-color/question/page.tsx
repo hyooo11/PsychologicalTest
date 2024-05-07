@@ -1,13 +1,12 @@
 import Question from "@/component/Questions";
-import { questions } from "@/data/Company";
+import { questions } from "@/data/PersonalColor";
 
-const CompanyQuestionPage = () => {
+const PersonalColorQuestionPage = () => {
   const questionList = questions;
   return (
     <div>
-      {/* <Question /> */}
       <Question questionList={questionList} />
     </div>
   );
 };
-export default CompanyQuestionPage;
+export default PersonalColorQuestionPage;

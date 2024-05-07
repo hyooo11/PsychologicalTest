@@ -1,11 +1,14 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { questions } from "@/data";
-import { useRouter } from "next/navigation";
+import { QuestionsType } from "@/data/Company";
+import { useRouter, usePathname } from "next/navigation";
 
 interface BarProps {
   progress: string;
+}
+interface Props {
+  questionList: QuestionsType[];
 }
 const ProgressWrap = styled.div`
   display: flex;
@@ -21,17 +24,16 @@ const Bar = styled.div<BarProps>`
   background-color: red;
 `;
 
-const Question = () => {
+const Question = ({ questionList }: Props) => {
   const router = useRouter();
-  const [questionList, setQuestionList] = useState(questions);
+  const pathname = usePathname();
   const [count, setCount] = useState(0);
-
-  console.log(count, questionList.length);
-
   const [ei, setEi] = useState(0);
   const [ns, setNs] = useState(0);
   const [ft, setFt] = useState(0);
   const [pj, setPj] = useState(0);
+
+  const query = pathname.split("/")[1];
 
   //점수계산
   const mbtiScore = (
@@ -59,7 +61,7 @@ const Question = () => {
     ns > 0 ? (mbti += "n") : (mbti += "s");
     ft > 0 ? (mbti += "f") : (mbti += "t");
     pj > 0 ? (mbti += "p") : (mbti += "j");
-    router.push(`/company/result/${mbti}`);
+    return mbti;
   };
 
   //버튼 클릭시 이벤트
@@ -72,11 +74,6 @@ const Question = () => {
   };
   //진행도 바
   const progress = `${(100 / questionList.length) * count}%`;
-
-  //결과 페이지 이동
-  if (count >= questionList.length) {
-    mbtiResult();
-  }
 
   //이전 질문 다시 선택
 
@@ -109,7 +106,7 @@ const Question = () => {
           </div>
         </div>
       ) : (
-        ""
+        router.push(`/${query}/result/${mbtiResult()}`)
       )}
     </>
   );
