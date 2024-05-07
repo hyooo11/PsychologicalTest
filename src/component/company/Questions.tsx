@@ -2,11 +2,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { questions } from "@/data";
+import { useRouter } from "next/navigation";
 
 interface BarProps {
   progress: string;
 }
-
 const ProgressWrap = styled.div`
   display: flex;
 `;
@@ -22,8 +22,11 @@ const Bar = styled.div<BarProps>`
 `;
 
 const Question = () => {
+  const router = useRouter();
   const [questionList, setQuestionList] = useState(questions);
   const [count, setCount] = useState(0);
+
+  console.log(count, questionList.length);
 
   const [ei, setEi] = useState(0);
   const [ns, setNs] = useState(0);
@@ -56,7 +59,7 @@ const Question = () => {
     ns > 0 ? (mbti += "n") : (mbti += "s");
     ft > 0 ? (mbti += "f") : (mbti += "t");
     pj > 0 ? (mbti += "p") : (mbti += "j");
-    console.log(mbti);
+    router.push(`/company/result/${mbti}`);
   };
 
   //버튼 클릭시 이벤트
@@ -66,10 +69,14 @@ const Question = () => {
   ) => {
     setCount(count + 1);
     mbtiScore(index, e);
-    mbtiResult();
   };
   //진행도 바
   const progress = `${(100 / questionList.length) * count}%`;
+
+  //결과 페이지 이동
+  if (count >= questionList.length) {
+    mbtiResult();
+  }
 
   //이전 질문 다시 선택
 
